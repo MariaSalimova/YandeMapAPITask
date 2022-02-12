@@ -8,7 +8,7 @@ from geocoder import show_map, get_ll_spn
 class MapApp(PyQt5.QtWidgets.QMainWindow):
     def __init__(self, coord1, coord2, z):
         super(MapApp, self).__init__()
-        uic.loadUi('map1.ui', self)
+        uic.loadUi('map5.ui', self)
         self.show()
         self.centre = f"{coord1},{coord2}"
         self.z = z
