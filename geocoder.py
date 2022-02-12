@@ -41,12 +41,11 @@ def get_ll_spn(address):
     return ll, spn
 
 
-def show_map(ll, spn, map_type="map", add_params=None):
+def show_map(ll, z, map_type="map", add_params=None):
     map_params = {
         "ll": ll,
-        "spn": spn,
-        "l": map_type,
-        "pt": f"{ll},pm2rdm"
+        "z": z,
+        "l": map_type
     }
 
     if isinstance(add_params, dict):
@@ -54,7 +53,9 @@ def show_map(ll, spn, map_type="map", add_params=None):
 
     map_api_server = "http://static-maps.yandex.ru/1.x/"
     response = requests.get(map_api_server, params=map_params)
+    print(response.status_code)
     Image.open(BytesIO(response.content)).show()
+    return response.content
 
 
 def find_organization(ll, spn, request, lang="ru_RU"):
