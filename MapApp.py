@@ -13,9 +13,10 @@ class MapApp(PyQt5.QtWidgets.QMainWindow):
         self.centre = f"{coord1},{coord2}"
         self.z = z
         self.show_map()
+        self.search_button.clicked.connect(self.show_object)
 
-    def show_map(self):
-        img = show_map(self.centre, self.z)
+    def show_map(self, add_params=None):
+        img = show_map(self.centre, self.z, add_params=add_params)
         pixmap = PyQt5.QtGui.QPixmap()
         pixmap.loadFromData(QByteArray(img))
         self.map_label.setPixmap(pixmap)
@@ -32,6 +33,11 @@ class MapApp(PyQt5.QtWidgets.QMainWindow):
             if self.z < 0:
                 self.z = 0
             self.show_map()
+
+    def show_object(self):
+        ll, spn = get_ll_spn(self.search_line.text())
+        self.centre = ll
+        self.show_map({"pt": f"{ll},pm2rdm"})
 
 
 if __name__ == '__main__':
