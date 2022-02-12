@@ -12,10 +12,11 @@ class MapApp(PyQt5.QtWidgets.QMainWindow):
         self.show()
         self.centre = f"{coord1},{coord2}"
         self.z = z
-        self.map_mode.currentIndexChanged.connect(self.show_map)
         self.show_map()
+        self.search_button.clicked.connect(self.show_object)
 
-    def show_map(self):
+    def show_map(self, add_params=None):
+        img = show_map(self.centre, self.z, add_params=add_params)
         mode = self.map_mode.currentText()
         if mode == 'Схема':
             mode = 'map'
