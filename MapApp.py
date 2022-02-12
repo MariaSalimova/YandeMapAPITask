@@ -1,9 +1,8 @@
-import PyQt5.QtWidgets
-import PyQt5.QtGui
-from PyQt5 import uic
+from PyQt5 import QtWidgets, QtGui, uic
+import PyQt5
 import sys
-from PyQt5.QtCore import QByteArray
-from geocoder import show_map
+from PyQt5.QtCore import QByteArray, Qt
+from geocoder import show_map, get_ll_spn
 
 
 class MapApp(PyQt5.QtWidgets.QMainWindow):
@@ -21,10 +20,24 @@ class MapApp(PyQt5.QtWidgets.QMainWindow):
         pixmap.loadFromData(QByteArray(img))
         self.map_label.setPixmap(pixmap)
 
+    def keyPressEvent(self, event):
+        key = event.key()
+        if key == Qt.Key_PageUp:
+            self.z += 1
+            if self.z > 17:
+                self.z = 17
+            self.show_map()
+        elif key == Qt.Key_PageDown:
+            self.z -= 1
+            if self.z < 0:
+                self.z = 0
+            self.show_map()
+
 
 if __name__ == '__main__':
     app = PyQt5.QtWidgets.QApplication(sys.argv)
     # ll, spn = get_ll_spn('Ветлужская 89')
+    # map_app = MapApp(*ll.split(','), 14)
     map_app = MapApp(sys.argv[1], sys.argv[2], sys.argv[3])
     map_app.show()
     sys.exit(app.exec())

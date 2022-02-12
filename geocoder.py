@@ -53,8 +53,8 @@ def show_map(ll, z, map_type="map", add_params=None):
 
     map_api_server = "http://static-maps.yandex.ru/1.x/"
     response = requests.get(map_api_server, params=map_params)
-    print(response.status_code)
-    Image.open(BytesIO(response.content)).show()
+    # print(response.status_code)
+    # Image.open(BytesIO(response.content)).show()
     return response.content
 
 
