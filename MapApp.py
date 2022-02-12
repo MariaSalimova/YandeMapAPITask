@@ -12,10 +12,19 @@ class MapApp(PyQt5.QtWidgets.QMainWindow):
         self.show()
         self.centre = f"{coord1},{coord2}"
         self.z = z
+        self.map_mode.currentIndexChanged.connect(self.show_map)
         self.show_map()
 
     def show_map(self):
-        img = show_map(self.centre, self.z)
+        mode = self.map_mode.currentText()
+        if mode == 'Схема':
+            mode = 'map'
+        elif mode == 'Гибрид':
+            mode = 'sat,skl'
+        elif mode == 'Спутник':
+            mode = 'sat'
+
+        img = show_map(self.centre, self.z, map_type=mode)
         pixmap = PyQt5.QtGui.QPixmap()
         pixmap.loadFromData(QByteArray(img))
         self.map_label.setPixmap(pixmap)
@@ -36,9 +45,9 @@ class MapApp(PyQt5.QtWidgets.QMainWindow):
 
 if __name__ == '__main__':
     app = PyQt5.QtWidgets.QApplication(sys.argv)
-    # ll, spn = get_ll_spn('Ветлужская 89')
-    # map_app = MapApp(*ll.split(','), 14)
-    map_app = MapApp(sys.argv[1], sys.argv[2], sys.argv[3])
+    ll, spn = get_ll_spn('Ветлужская 89')
+    map_app = MapApp(*ll.split(','), 14)
+    # map_app = MapApp(sys.argv[1], sys.argv[2], sys.argv[3])
     map_app.show()
     sys.exit(app.exec())
     #  sys.argv[1], sys.argv[2], sys.argv[3]
