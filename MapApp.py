@@ -17,6 +17,7 @@ class MapApp(PyQt5.QtWidgets.QMainWindow, Ui_MainWindow):
         self.clearFocus()
         self.show_map()
         self.search_button.clicked.connect(self.show_object)
+        self.reset.clicked.connect(self.clear_point)
         self.map_mode.currentIndexChanged.connect(self.show_map)
 
     def show_map(self):
@@ -35,6 +36,44 @@ class MapApp(PyQt5.QtWidgets.QMainWindow, Ui_MainWindow):
         self.map_label.setPixmap(pixmap)
 
     def keyPressEvent(self, event):
+        pass
+        # key = event.key()
+        # if key == Qt.Key_PageUp:
+        #     self.z += 1
+        #     if self.z > 17:
+        #         self.z = 17
+        #     self.show_map()
+        # elif key == Qt.Key_PageDown:
+        #     self.z -= 1
+        #     if self.z < 0:
+        #         self.z = 0
+        #     self.show_map()
+        # elif key == 1062:
+        #     self.y += 90 / (self.z * 1000)
+        #     if self.y >= 90:
+        #         self.y = -89
+        #     self.show_map()
+        #     print("Вверх")
+        # elif key == 1067:
+        #     self.y -= 90 / (self.z * 1000)
+        #     if self.y <= -90:
+        #         self.y = 89
+        #     self.show_map()
+        #     print("Вниз")
+        # elif key == 1060:
+        #     self.x -= 180 / (self.z * 1000)
+        #     if self.x <= -180:
+        #         self.x = 179
+        #     self.show_map()
+        #     print("Влево")
+        # elif key == 1042:
+        #     self.x += 180 / (self.z * 1000)
+        #     if self.x >= 180:
+        #         self.x = -179
+        #     self.show_map()
+        #     print("Враво")
+
+    def keyReleaseEvent(self, event):
         key = event.key()
         if key == Qt.Key_PageUp:
             self.z += 1
@@ -46,26 +85,26 @@ class MapApp(PyQt5.QtWidgets.QMainWindow, Ui_MainWindow):
             if self.z < 0:
                 self.z = 0
             self.show_map()
-        elif key == 1062:
-            self.y += 90 / (self.z * 1000)
+        elif key == Qt.Key_Up:
+            self.y += 90 / (self.z * 2000)
             if self.y >= 90:
                 self.y = -89
             self.show_map()
             print("Вверх")
-        elif key == 1067:
-            self.y -= 90 / (self.z * 1000)
+        elif key == Qt.Key_Down:
+            self.y -= 90 / (self.z * 2000)
             if self.y <= -90:
                 self.y = 89
             self.show_map()
             print("Вниз")
-        elif key == 1060:
-            self.x -= 180 / (self.z * 1000)
+        elif key == Qt.Key_Left:
+            self.x -= 180 / (self.z * 2000)
             if self.x <= -180:
                 self.x = 179
             self.show_map()
             print("Влево")
-        elif key == 1042:
-            self.x += 180 / (self.z * 1000)
+        elif key == Qt.Key_Right:
+            self.x += 180 / (self.z * 2000)
             if self.x >= 180:
                 self.x = -179
             self.show_map()
@@ -75,6 +114,10 @@ class MapApp(PyQt5.QtWidgets.QMainWindow, Ui_MainWindow):
         ll, spn = get_ll_spn(self.search_line.text())
         self.x, self.y = map(float, ll.split(','))
         self.add_params["pt"] = f"{ll},pm2rdm"
+        self.show_map()
+
+    def clear_point(self):
+        self.add_params.pop("pt")
         self.show_map()
 
 

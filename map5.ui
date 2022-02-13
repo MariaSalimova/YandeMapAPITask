@@ -24,6 +24,9 @@
           <pointsize>14</pointsize>
          </font>
         </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
         <item>
          <property name="text">
           <string>Схема</string>
@@ -42,11 +45,29 @@
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="pushButton">
+        <property name="font">
+         <font>
+          <pointsize>14</pointsize>
+         </font>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
+        <property name="text">
+         <string>Сброс поискового результата</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QLineEdit" name="search_line">
         <property name="font">
          <font>
           <pointsize>14</pointsize>
          </font>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::ClickFocus</enum>
         </property>
        </widget>
       </item>
@@ -56,6 +77,9 @@
          <font>
           <pointsize>14</pointsize>
          </font>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
         </property>
         <property name="text">
          <string>Поиск</string>
