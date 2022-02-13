@@ -1,22 +1,26 @@
-from PyQt5 import QtWidgets, QtGui, uic
+from PyQt5 import QtWidgets, QtGui
 import PyQt5
 import sys
 from PyQt5.QtCore import QByteArray, Qt
 from geocoder import show_map, get_ll_spn
+from window import Ui_MainWindow
 
 
-class MapApp(PyQt5.QtWidgets.QMainWindow):
+class MapApp(PyQt5.QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self, coord1, coord2, z):
         super(MapApp, self).__init__()
-        uic.loadUi('map5.ui', self)
-        self.show()
+        self.setupUi(self)
         self.add_params = dict()
+        self.x, self.y = map(float, (coord1, coord2))
         self.centre = f"{coord1},{coord2}"
         self.z = z
+        self.clearFocus()
         self.show_map()
         self.search_button.clicked.connect(self.show_object)
+        self.map_mode.currentIndexChanged.connect(self.show_map)
 
     def show_map(self):
+        self.map_mode.clearFocus()
         mode = self.map_mode.currentText()
         if mode == 'Схема':
             mode = 'map'
@@ -25,7 +29,7 @@ class MapApp(PyQt5.QtWidgets.QMainWindow):
         elif mode == 'Спутник':
             mode = 'sat'
 
-        img = show_map(self.centre, self.z, map_type=mode, add_params=self.add_params)
+        img = show_map(",".join((map(str, (self.x, self.y)))), self.z, map_type=mode, add_params=self.add_params)
         pixmap = PyQt5.QtGui.QPixmap()
         pixmap.loadFromData(QByteArray(img))
         self.map_label.setPixmap(pixmap)
@@ -42,14 +46,36 @@ class MapApp(PyQt5.QtWidgets.QMainWindow):
             if self.z < 0:
                 self.z = 0
             self.show_map()
+        elif key == 1062:
+            self.y += 90 / (self.z * 1000)
+            if self.y >= 90:
+                self.y = -89
+            self.show_map()
+            print("Вверх")
+        elif key == 1067:
+            self.y -= 90 / (self.z * 1000)
+            if self.y <= -90:
+                self.y = 89
+            self.show_map()
+            print("Вниз")
+        elif key == 1060:
+            self.x -= 180 / (self.z * 1000)
+            if self.x <= -180:
+                self.x = 179
+            self.show_map()
+            print("Влево")
+        elif key == 1042:
+            self.x += 180 / (self.z * 1000)
+            if self.x >= 180:
+                self.x = -179
+            self.show_map()
+            print("Враво")
 
     def show_object(self):
         ll, spn = get_ll_spn(self.search_line.text())
-        self.centre = ll
-        if 'pt' in self.add_params:
-            self.add_params['pt'] = f"{self.add_params}~{f'{ll},pm2rdm'}"
-        else:
-            self.add_params["pt"] = f"{ll},pm2rdm"
+        self.x, self.y = map(float, ll.split(','))
+        self.add_params["pt"] = f"{ll},pm2rdm"
+        self.show_map()
 
 
 if __name__ == '__main__':
