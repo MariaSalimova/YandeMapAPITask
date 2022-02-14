@@ -45,7 +45,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="reset">
         <property name="font">
          <font>
           <pointsize>14</pointsize>

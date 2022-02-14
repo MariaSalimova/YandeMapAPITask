@@ -58,13 +58,12 @@ def show_map(ll, z, map_type="map", add_params=None):
     return response.content
 
 
-def find_organization(ll, spn, request, lang="ru_RU"):
+def find_organization(ll, request, lang="ru_RU"):
     search_api_server = "https://search-maps.yandex.ru/v1/"
     search_param = {
         "apikey": API_KEY_SEARCH,
         "text": request,
         "ll": ll,
-        "spn": spn,
         "lang": lang
     }
     response = requests.get(search_api_server, search_param)
@@ -76,7 +75,7 @@ def find_organization(ll, spn, request, lang="ru_RU"):
     return organization
 
 
-def find_nearst_organization(ll, spn, request, lang="ru_RU"):
-    organization = find_organization(ll, spn, request, lang=lang)
+def find_nearst_organization(ll, request, lang="ru_RU"):
+    organization = find_organization(ll, request, lang=lang)
     if len(organization):
         return organization[0]

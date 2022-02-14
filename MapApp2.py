@@ -1,15 +1,15 @@
-from PyQt5 import QtWidgets, QtGui, uic
+from PyQt5 import QtWidgets, QtGui
 import PyQt5
 import sys
 from PyQt5.QtCore import QByteArray, Qt
 from geocoder import show_map, get_ll_spn
+from window2 import Ui_MainWindow
 
 
-class MapApp(PyQt5.QtWidgets.QMainWindow):
+class MapApp(PyQt5.QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self, coord1, coord2, z):
         super(MapApp, self).__init__()
-        uic.loadUi('map1.ui', self)
-        self.show()
+        self.setupUi(self)
         self.x, self.y = [coord1, coord2]
         self.centre = f"{self.x},{self.y}"
         self.z = z
