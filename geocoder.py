@@ -22,8 +22,7 @@ def geocode(address):
 HTTP статус: {response.status_code}({response.reason})"""
 
     json_response = response.json()
-    return json_response["response"]["GeoObjectCollection"][
-        "featureMember"][0]["GeoObject"]
+    return json_response["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"]
 
 
 def get_ll_spn(address):

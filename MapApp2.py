@@ -3,7 +3,7 @@ import PyQt5
 import sys
 from PyQt5.QtCore import QByteArray, Qt
 from geocoder import show_map, get_ll_spn
-from window2 import Ui_MainWindow
+from window import Ui_MainWindow
 
 
 class MapApp(PyQt5.QtWidgets.QMainWindow, Ui_MainWindow):
